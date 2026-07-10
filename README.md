@@ -33,9 +33,25 @@ agent/gemini/docs/update-api-guide
 
 Every agent must synchronize with `origin/main` before starting work and before opening a pull request.
 
+## Quick start with the init script
+
+From any directory (new or existing project):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/stephanemalho/multi-harness-agent-template/main/scripts/init-agent-template.sh | bash -s -- .
+```
+
+Or from a local checkout of this template:
+
+```bash
+scripts/init-agent-template.sh ../my-project
+```
+
+The script copies the template files, prompts for the project identity placeholders (`PROJECT_NAME_REPLACE_ME`, `OWNER_REPLACE_ME`, lint/test/build commands, ...), initializes git if needed, and runs `scripts/validate-agent-template.sh`. Existing files are never overwritten unless `--force` is passed; use `--no-prompt` for non-interactive runs.
+
 ## Quick start for a new project
 
-1. Create a new repository from this template.
+1. Create a new repository from this template, or run the init script above in an empty directory.
 2. Fill the project facts in `docs/templates/project-profile.template.md`.
 3. Replace placeholder rules in `docs/agent-rules/*.template.md`.
 4. Update `AGENTS.md` with the project name, stack, commands, and critical constraints.
@@ -45,7 +61,7 @@ Every agent must synchronize with `origin/main` before starting work and before 
 
 ## Quick start for an existing project
 
-Copy these files and folders into the project root:
+Run the init script above from the project root, or copy these files and folders manually:
 
 ```txt
 AGENTS.md

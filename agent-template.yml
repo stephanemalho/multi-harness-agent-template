@@ -11,6 +11,10 @@ branches:
     - agent/claude/template
     - agent/gemini/template
 
+init:
+  script: scripts/init-agent-template.sh
+  repo: https://github.com/stephanemalho/multi-harness-agent-template.git
+
 canonical_sources:
   entrypoint: AGENTS.md
   rules: docs/agent-rules/
