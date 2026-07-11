@@ -39,6 +39,64 @@ if ! grep -q "docs/agent-rules" AGENTS.md; then
   exit 1
 fi
 
+policy_files=(
+  "AGENTS.md"
+  "docs/SETUP.md"
+  "docs/CONTROL-FLOW.md"
+  "docs/agent-rules/git-workflow.md"
+  "docs/agent-rules/operations.template.md"
+  "docs/harness/multi-agent-workflow.md"
+)
+
+obsolete_policy_patterns=(
+  "Never run two coding agents in the same worktree"
+  "Each model/harness must work in its own git worktree and branch"
+  "Each harness gets a separate worktree"
+  "Each agent works on its own branch and worktree"
+)
+
+for pattern in "${obsolete_policy_patterns[@]}"; do
+  if grep -Fq "${pattern}" "${policy_files[@]}"; then
+    echo "error: obsolete agent/worktree policy found: ${pattern}" >&2
+    exit 1
+  fi
+done
+
+if grep -q '"worktrees"[[:space:]]*:[[:space:]]*true' .gemini/settings.json; then
+  echo "error: Gemini worktree isolation must not be enabled as the template default" >&2
+  exit 1
+fi
+
+if ! grep -q "multiple native agents or subagents" AGENTS.md; then
+  echo "error: AGENTS.md must allow harness-native multi-agent coordination" >&2
+  exit 1
+fi
+
+if ! grep -q "non-overlapping file ownership" AGENTS.md; then
+  echo "error: AGENTS.md must require non-overlapping ownership for parallel writers" >&2
+  exit 1
+fi
+
+if ! grep -q "explicit approval from the human maintainer" AGENTS.md; then
+  echo "error: AGENTS.md must require maintainer approval for additional worktrees" >&2
+  exit 1
+fi
+
+if ! grep -q "## Commit Messages" docs/agent-rules/git-workflow.md; then
+  echo "error: git workflow must define the commit message format" >&2
+  exit 1
+fi
+
+if ! grep -q "Co-Authored-By:" docs/agent-rules/git-workflow.md; then
+  echo "error: commit message format must include agent attribution" >&2
+  exit 1
+fi
+
+if ! grep -q 'TARGET_PATH="$4"' scripts/create-agent-worktree.sh; then
+  echo "error: worktree helper must require an explicit target path" >&2
+  exit 1
+fi
+
 if ! grep -q "@AGENTS.md" CLAUDE.md; then
   echo "error: CLAUDE.md must import AGENTS.md" >&2
   exit 1
@@ -53,4 +111,3 @@ python3 -m json.tool .claude/settings.json >/dev/null
 python3 -m json.tool .gemini/settings.json >/dev/null
 
 echo "template validation passed"
-

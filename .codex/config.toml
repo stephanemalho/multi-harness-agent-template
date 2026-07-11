@@ -32,6 +32,7 @@ Before changing Codex-specific files, check the official Codex documentation:
 
 Before reporting completion for any task, apply docs/skills/do_work.md.
 
+Use subagents for independent bounded work when parallelism improves speed or quality. Multiple writing subagents may work on the current approved Codex branch only when the coordinator assigns non-overlapping file ownership and integrates their changes. Subagents must not create or switch branches, worktrees, clones, or repositories unless the human maintainer explicitly authorizes it.
+
 Do not merge or push directly to main. The human maintainer owns final merge.
 """
-
