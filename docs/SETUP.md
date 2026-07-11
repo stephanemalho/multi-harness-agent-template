@@ -29,15 +29,21 @@ scripts/validate-agent-template.sh
 
 Fill placeholders before asking agents to implement production work.
 
-## Creating Agent Worktrees
+## Starting A Harness
+
+Use the existing project checkout on a task branch owned by the active harness. The harness coordinator may run multiple native agents or subagents there, subject to the ownership rules in `docs/harness/multi-agent-workflow.md`.
+
+A request for parallel agents does not authorize a new branch, clone, or worktree.
+
+## Optional Maintainer-Approved Worktree
+
+Additional worktrees are not part of normal agent startup. If the human maintainer explicitly approves one, they may run:
 
 ```bash
 scripts/create-agent-worktree.sh codex 42 add-auth-tests ../project-codex-42
-scripts/create-agent-worktree.sh claude docs update-agent-rules ../project-claude-docs
-scripts/create-agent-worktree.sh gemini ui polish-dashboard ../project-gemini-ui
 ```
 
-Each worktree should have its own local env:
+The path is mandatory and intentional. Each explicitly approved worktree should have its own local env:
 
 ```bash
 cp .env.example .env.local
@@ -75,4 +81,3 @@ Before merging an agent PR:
 6. Merge only when satisfied.
 
 Agents do not merge to `main`.
-

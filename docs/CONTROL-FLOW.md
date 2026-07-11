@@ -16,7 +16,7 @@ This layer shapes agent behavior.
 
 - `scripts/agent-preflight.sh`
 - `scripts/agent-sync-main.sh`
-- `scripts/create-agent-worktree.sh`
+- `scripts/create-agent-worktree.sh` (optional, only with explicit maintainer approval)
 - `scripts/validate-agent-template.sh`
 
 This layer catches wrong branches, stale branches, missing files, and accidental local settings commits.
@@ -39,4 +39,3 @@ This layer prevents accidental direct integration into `main`.
 The human maintainer remains the merge authority.
 
 Agents propose. The human compares, validates, and merges.
-

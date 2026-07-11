@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -lt 3 ]]; then
-  echo "usage: scripts/create-agent-worktree.sh <harness> <ticket-or-task> <short-slug> [path]" >&2
+if [[ $# -ne 4 ]]; then
+  echo "usage: scripts/create-agent-worktree.sh <harness> <ticket-or-task> <short-slug> <explicit-path>" >&2
   echo "example: scripts/create-agent-worktree.sh codex 42 add-auth-tests ../project-codex-42" >&2
+  echo "note: requires explicit maintainer approval" >&2
   exit 1
 fi
 
 HARNESS="$1"
 TASK="$2"
 SLUG="$3"
-TARGET_PATH="${4:-../$(basename "$(pwd)")-${HARNESS}-${TASK}-${SLUG}}"
+TARGET_PATH="$4"
 MAIN_BRANCH="${MAIN_BRANCH:-main}"
 REMOTE="${REMOTE:-origin}"
 
@@ -30,4 +31,3 @@ echo "next:"
 echo "  cd ${TARGET_PATH}"
 echo "  cp .env.example .env.local"
 echo "  scripts/agent-preflight.sh"
-

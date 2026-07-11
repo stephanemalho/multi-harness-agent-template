@@ -26,10 +26,9 @@ Use this file for runtime, deployment, observability, and support rules.
 
 ## Local Ports
 
-Each agent worktree must use separate ports when running services in parallel.
+Parallel services in the current checkout must use coordinator-assigned ports that do not conflict. A maintainer-approved additional worktree must also receive its own ports and local-only runtime state.
 
 | Service | Default | Agent override |
 |---|---:|---:|
 | app | `3000` | `3xxx` |
 | api | `8000` | `8xxx` |
-

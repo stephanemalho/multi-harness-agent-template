@@ -1,6 +1,6 @@
 ---
 topic: multi-agent-workflow
-last_reviewed: 2026-07-04
+last_reviewed: 2026-07-11
 source_policy: official-docs-first
 staleness_limit_days: 30
 ---
@@ -9,7 +9,7 @@ staleness_limit_days: 30
 
 ## Goal
 
-Allow multiple harnesses to work on the same project without conflicting worktrees, stale branches, or duplicated rule ownership.
+Allow each harness to coordinate multiple native agents on its task branch without stale branches, overlapping writes, unnecessary worktrees, or duplicated rule ownership.
 
 ## Branches
 
@@ -29,14 +29,25 @@ agent/claude/template
 agent/gemini/template
 ```
 
+The harness segment owns the branch. It does not limit the branch to one agent session.
+
+## Native Agent Coordination
+
+The harness coordinator may run multiple agents or subagents using that harness's native capabilities. Codex, Claude Code, and Gemini CLI do not need to expose identical delegation, isolation, nesting, or tool behavior.
+
+Parallel writing is allowed only when the coordinator:
+
+- assigns explicit, non-overlapping files to each writer
+- keeps one writer responsible for shared contracts and shared files
+- integrates and validates the combined result on the harness branch
+
+Read-heavy exploration, review, and validation can be delegated without granting write ownership.
+
 ## Worktrees
 
-Each harness gets a separate worktree.
+Agent or subagent delegation stays in the current project checkout by default. A request for parallel work never implies creating a branch, clone, or worktree.
 
-```bash
-git fetch origin main
-git worktree add ../project-codex-task -b agent/codex/task/short-slug origin/main
-```
+Additional worktrees are exceptional and require explicit maintainer approval. When approved, the maintainer may use `scripts/create-agent-worktree.sh <harness> <ticket-or-task> <short-slug> <explicit-path>`. The helper must not be treated as the default agent startup path.
 
 ## Sync Contract
 
@@ -63,4 +74,3 @@ CI verifies:
 - required files exist
 - no local settings or obvious secrets are committed
 - project-specific checks if configured
-

@@ -10,7 +10,7 @@ The template is designed for Codex, Claude Code, Gemini CLI, and future harnesse
 - `docs/agent-rules/` contains project rules that should apply to every harness.
 - `docs/skills/` contains neutral workflows.
 - `.codex/`, `.claude/`, `.gemini/`, and `.agents/skills/` adapt the neutral rules to each tool.
-- Each agent works on its own branch and worktree.
+- Each task branch belongs to one harness, whose coordinator may run multiple native agents or subagents with non-overlapping file ownership.
 - Pull requests are reviewed and merged by a human.
 
 ## Branch model
@@ -31,7 +31,7 @@ agent/claude/refactor/routing-cleanup
 agent/gemini/docs/update-api-guide
 ```
 
-Every agent must synchronize with `origin/main` before starting work and before opening a pull request.
+The harness coordinator must synchronize the branch with `origin/main` before starting work and before opening a pull request. Delegating to subagents does not create another branch or worktree.
 
 ## Quick start with the init script
 
@@ -91,10 +91,13 @@ The human maintainer compares the PR branch with `main`, reviews the diff, valid
 - OpenAI Codex AGENTS.md: https://developers.openai.com/codex/guides/agents-md
 - OpenAI Codex config: https://developers.openai.com/codex/config-basic
 - OpenAI Codex skills: https://developers.openai.com/codex/skills
+- OpenAI Codex subagents: https://developers.openai.com/codex/subagents
 - Anthropic Claude Code memory: https://code.claude.com/docs/en/memory
 - Anthropic Claude Code settings: https://code.claude.com/docs/en/settings
 - Anthropic Claude Code hooks: https://code.claude.com/docs/en/hooks
+- Anthropic Claude Code subagents: https://code.claude.com/docs/en/sub-agents
 - Gemini CLI context: https://google-gemini.github.io/gemini-cli/docs/cli/gemini-md.html
+- Gemini CLI subagents: https://geminicli.com/docs/core/subagents/
 - Gemini CLI worktrees: https://geminicli.com/docs/cli/git-worktrees/
 
 ## License
