@@ -39,3 +39,15 @@ This layer prevents accidental direct integration into `main`.
 The human maintainer remains the merge authority.
 
 Agents propose. The human compares, validates, and merges.
+
+## Final step: Test your repository with AgentReady
+
+Check whether your project is ready for agentic development workflows with tools such as:
+
+- OpenAI Codex
+- Gemini Code Assist
+- Claude Code
+
+Analyze your repository, identify compatibility gaps, and improve its structure for AI coding agents.
+
+👉 [Test your repository with AgentReady](https://agentready-psi.vercel.app/)
